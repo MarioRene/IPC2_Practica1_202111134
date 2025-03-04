@@ -2,6 +2,7 @@ import random  # Importar el módulo random para generar números aleatorios
 
 class Cuenta:
     # Constructor de la clase Cuenta
+    # Estas validaciones están ocultas para el usuario, quien solo ve un mensaje de error si intenta realizar una operación inválida.
     def __init__(self, titular, saldo):
         self.titular = titular
         self.numero_cuenta = self.generar_numero_cuenta()
@@ -13,6 +14,8 @@ class Cuenta:
         return self._saldo
 
     # Setter para _saldo
+    #Aquí, el usuario no necesita saber cómo se genera el número de cuenta o cómo se valida el saldo. 
+    #Solo interactúa con métodos públicos como depositar, retirar y mostrar_informacion.
     @saldo.setter
     def saldo(self, nuevo_saldo):
         if nuevo_saldo >= 0:  # Validación para evitar saldos negativos
@@ -25,6 +28,7 @@ class Cuenta:
         return ''.join([str(random.randint(0, 9)) for _ in range(16)])
 
     # Método para depositar dinero en la cuenta
+    #El usuario no necesita saber cómo se actualiza el saldo internamente; solo llama al método depositar y este se encarga de todo.
     def depositar(self, cantidad):
         if cantidad > 0:
             self.saldo = self.saldo + cantidad  # Usa el setter para actualizar el saldo
@@ -54,6 +58,7 @@ class CuentaAhorro(Cuenta):
         self.tasa_interes = tasa_interes
 
     # Método para calcular el interés de la cuenta de ahorro
+    # Aquí, el método calcular_interes es específico de CuentaAhorro, pero el usuario no necesita saber cómo se calcula el interés; solo llama al método.
     def calcular_interes(self):
         interes = self.saldo * self.tasa_interes  # Usa el getter para obtener el saldo
         self.saldo = self.saldo + interes  # Usa el setter para actualizar el saldo
@@ -86,6 +91,8 @@ class CuentaMonetaria(Cuenta):
 
 
 # Función para mostrar el menú principal del sistema bancario
+# El usuario no necesita saber cómo se almacenan las cuentas o cómo se gestionan internamente;
+# solo interactúa con opciones simples como "Abrir Cuenta" o "Gestionar Cuenta".
 def menu_principal():
     # Lista para almacenar las cuentas creadas
     cuentas = []
@@ -197,4 +204,7 @@ def menu_principal():
 # Ejecutar el menú principal del sistema bancario
 if __name__ == "__main__":
     menu_principal()
-    
+
+# La abstracción en este código se logra al ocultar los detalles internos de las clases (Cuenta, CuentaAhorro, CuentaMonetaria) 
+# y exponer solo una interfaz pública sencilla para interactuar con ellas. Esto permite que el usuario utilice las
+# funcionalidades sin preocuparse por cómo están implementadas, lo que facilita el uso y mantenimiento del código.
